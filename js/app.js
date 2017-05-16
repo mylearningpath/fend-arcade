@@ -44,11 +44,25 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.update = function() {
-  // code
+  this.x = this.col * 101;
+  this.y = this.row * 83;
 };
 
-Player.prototype.handleInput = function() {
-  // code
+Player.prototype.handleInput = function(key) {
+  switch(key) {
+    case 'left':
+        this.col--;
+        break;
+    case 'right':
+        this.col++;
+        break;
+    case 'up':
+        this.row--;
+        break;
+    case 'down':
+        this.row++;
+        break;
+    }
 };
 
 // Now instantiate your objects.
