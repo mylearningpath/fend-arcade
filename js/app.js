@@ -44,6 +44,26 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.update = function() {
+
+  // Prevent user from walk out of canvas
+  if(this.col < 0) {
+    this.col = 0;
+  }
+
+  if(this.col > 4) {
+      this.col = 4;
+  }
+
+  if(this.row > 5) {
+      this.row = 5;
+  }
+
+  // When player hits water position is set to start
+  if(this.row == 0) {
+    this.col = 2;
+    this.row = 5;
+  }
+
   this.x = this.col * 101;
   this.y = this.row * 83;
 };
