@@ -1,3 +1,8 @@
+// GLOBALS
+
+var BLOCK_WIDTH = 101,
+    BLOCK_HEIGHT = 83;
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -26,13 +31,21 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function() {
-  // code
   this.sprite = 'images/char-boy.png';
+  // Set player to initial position
+  this.reset();
 };
 
 Player.prototype.update = function(dt) {
   //code
 };
+
+Player.prototype.reset = function() {
+  this.col = 2;
+  this.row = 5;
+  this.x = this.col * BLOCK_WIDTH;
+  this.y = this.row * BLOCK_HEIGHT;
+}
 
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
