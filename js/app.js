@@ -1,20 +1,23 @@
 // GLOBALS
 
 var BLOCK_WIDTH = 101,
-    BLOCK_HEIGHT = 83;
+    BLOCK_HEIGHT = 83,
+    MAX_ENEMIES = 3;
+    // LIST_OF_ENEMY = [1,2,3];
 
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(row, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-
-    // this.x = -1
-    // this.y = y; (random 1 - 3)
-    // this.speed = speed;
+    this.col = 0; // will be -1 => Off canvas
+    this.row = row;
+    this.x = this.col * BLOCK_WIDTH;
+    this.y = this.row * (BLOCK_HEIGHT);
+    this.speed = speed;
 };
 
 // Update the enemy's position, required method for game
@@ -23,6 +26,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += this.speed * dt;
+    if (this.x > ctx.canvas.width) {
+      this.x = -1;
+    }
+
 };
 
 // Draw the enemy on the screen, required method for game
@@ -72,7 +80,7 @@ Player.prototype.reset = function() {
 }
 
 Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y - 30);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y - 20);
 }
 
 Player.prototype.handleInput = function(key) {
@@ -101,6 +109,12 @@ Player.prototype.handleInput = function(key) {
 // Place the player object in a variable called player
 
 var allEnemies = [];
+
+for (i = 0; i < MAX_ENEMIES; i++) {
+  var row = Math.floor(Math.random() * 3) + 1;
+  var speed = 20 + Math.floor(Math.random() * 50);
+  allEnemies.push(new Enemy(row, speed));
+}
 
 var player = new Player();
 
