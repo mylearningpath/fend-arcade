@@ -11,6 +11,10 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+
+    // this.x = -1
+    // this.y = y; (random 1 - 3)
+    // this.speed = speed;
 };
 
 // Update the enemy's position, required method for game
@@ -36,7 +40,27 @@ var Player = function() {
   this.reset();
 };
 
-Player.prototype.update = function(dt) {    
+Player.prototype.update = function(dt) {
+
+  // if sequences makes sure player
+  // don't go off canvas
+  if (this.col < 0 ) {
+    this.col = 0;
+  }
+
+  if (this.col > 4 ) {
+    this.col = 4;
+  }
+
+  if (this.row > 5 ) {
+    this.row = 5;
+  }
+
+  // When player hits water reset() is called
+  if (this.row === 0 ) {
+    this.reset();
+  }
+
   this.x = this.col * BLOCK_WIDTH;
   this.y = this.row * BLOCK_HEIGHT;
 };
@@ -48,7 +72,7 @@ Player.prototype.reset = function() {
 }
 
 Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y - 30);
 }
 
 Player.prototype.handleInput = function(key) {
