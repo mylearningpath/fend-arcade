@@ -36,15 +36,15 @@ var Player = function() {
   this.reset();
 };
 
-Player.prototype.update = function(dt) {
-  //code
+Player.prototype.update = function(dt) {    
+  this.x = this.col * BLOCK_WIDTH;
+  this.y = this.row * BLOCK_HEIGHT;
 };
 
 Player.prototype.reset = function() {
   this.col = 2;
   this.row = 5;
-  this.x = this.col * BLOCK_WIDTH;
-  this.y = this.row * BLOCK_HEIGHT;
+  this.update();
 }
 
 Player.prototype.render = function() {
@@ -62,11 +62,11 @@ Player.prototype.handleInput = function(key) {
       // console.log("key right");
       break;
     case 'down':
-      this.row--
+      this.row++
       // console.log("key down");
       break;
     case 'up':
-      this.row++
+      this.row--
       // console.log("key up");
       break;
   }
