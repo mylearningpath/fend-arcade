@@ -16,19 +16,26 @@ var Enemy = function(row, speed) {
     this.col = 0; // will be -1 => Off canvas
     this.row = row;
     this.x = this.col * BLOCK_WIDTH;
-    this.y = this.row * (BLOCK_HEIGHT);
+    this.y = this.row * BLOCK_HEIGHT;
     this.speed = speed;
+
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
+Enemy.prototype.update = function(dt, player) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
     if (this.x > ctx.canvas.width) {
       this.x = -1;
+    }
+
+    // Handle collisions with the player
+    if( Math.abs(this.x - player.x) < 101 &&
+        Math.abs(this.y - player.y) < 83) {
+          player.reset();
     }
 
 };
@@ -65,7 +72,7 @@ Player.prototype.update = function(dt) {
   }
 
   // When player hits water reset() is called
-  if (this.row === 0 ) {
+  if (this.row === 0) {
     this.reset();
   }
 
