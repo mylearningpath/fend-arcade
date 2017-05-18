@@ -76,8 +76,8 @@ Player.prototype.update = function(dt) {
   // When player hits water reset() is called
   if (this.row === 0) {
     this.hide();
-
     setTimeout(this.reset.bind(this), 3000);
+    createEnemies();
   }
 
   this.x = this.col * BLOCK_WIDTH;
@@ -128,13 +128,22 @@ Player.prototype.handleInput = function(key) {
 
 var allEnemies = [];
 
-for (i = 0; i < MAX_ENEMIES; i++) {
-  var row = Math.floor(Math.random() * 3) + 1;
-  var speed = 20 + Math.floor(Math.random() * 50);
-  allEnemies.push(new Enemy(row, speed));
-}
+var createEnemies = function() {
+
+  allEnemies = [];
+
+  for (i = 0; i < MAX_ENEMIES; i++) {
+    var row = Math.floor(Math.random() * 3) + 1;
+    var speed = 20 + Math.floor(Math.random() * 50);
+    allEnemies.push(new Enemy(row, speed));
+  }
+};
+
+createEnemies();
 
 var player = new Player();
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
