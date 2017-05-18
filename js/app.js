@@ -13,7 +13,7 @@ var Enemy = function(row, speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.col = 0; // will be -1 => Off canvas
+    this.col = -1; // will be -1 => Off canvas
     this.row = row;
     this.x = this.col * BLOCK_WIDTH;
     this.y = this.row * BLOCK_HEIGHT;
@@ -27,14 +27,16 @@ Enemy.prototype.update = function(dt, player) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += this.speed * dt;
-    if (this.x > ctx.canvas.width) {
-      this.x = -1;
+    if (!player.hidding) {
+      this.x += this.speed * dt;
+      if (this.x > ctx.canvas.width) {
+        this.x = -1;
+      }
     }
 
     // Handle collisions with the player
-    if( Math.abs(this.x - player.x) < 101 &&
-        Math.abs(this.y - player.y) < 83) {
+    if( Math.abs(this.x - player.x) < BLOCK_WIDTH &&
+        Math.abs(this.y - player.y) < BLOCK_HEIGHT) {
           player.reset();
     }
 
@@ -73,14 +75,23 @@ Player.prototype.update = function(dt) {
 
   // When player hits water reset() is called
   if (this.row === 0) {
-    this.reset();
+    this.hide();
+
+    setTimeout(this.reset.bind(this), 3000);
   }
 
   this.x = this.col * BLOCK_WIDTH;
   this.y = this.row * BLOCK_HEIGHT;
 };
 
+Player.prototype.hide = function() {
+  this.hidding = true;
+  this.row = -10;
+  this.col = -10;
+}
+
 Player.prototype.reset = function() {
+  this.hidding = false;
   this.col = 2;
   this.row = 5;
   this.update();
